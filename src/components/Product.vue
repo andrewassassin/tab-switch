@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   name: 'HelloWorld',
   data () {
@@ -33,6 +34,21 @@ export default {
       },
     },
     mounted(){
+         const data = {
+        username: "John",
+        password: "Doe",
+        name:18
+      };
+      const config = {
+       responseType: 'text'
+      };
+  axios.post("http://localhost/Amitproject/insert.php#/", data, config)
+          .then(response => {
+            console.log('res  ', response);
+          })
+          .catch(error => {
+            console.log('err',error);
+          });
         console.log('mounted hello!');
     },
     created(){

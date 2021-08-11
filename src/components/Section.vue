@@ -26,28 +26,49 @@
             <span class="sr-only">Next</span>
         </a>
     </div>
+    <div>{{msg}}</div>
+
+                        <button v-on:click.prevent="clickMe()" class="btn btn-primary"  type="click">
+                            section購物車
+                        </button>
+     
+                <transition >
+                <Modal v-if="isClickCart" @closeBtn="closeModal"  />
+            </transition >
 </header>
+
 </template>
 
 <script>
+import Modal from '@/components/Modal'
 export default {
-name: 'Section',
-    data(){
-        return {
-            msg: '這是首頁'
-        }
+  name: 'Navbar',
+  data () {
+    return {
+      isClickCart: false
+    }
+  },
+  components: {
+    Modal
+  },
+  methods: {
+    clickMe () {
+      console.log('click')
+      this.isClickCart = true
     },
-    created(){
-        console.log('created section!');
+    closeModal () {
+      this.isClickCart = false
     },
     mounted(){
-        console.log('mounted section!');
-    },
-    updated(){
-        console.log('updated section!');
-    },
-    activated(){
-        console.log('activated section!');
+       axios.get("http://localhost/Amitproject/select.php#/")
+          .then(response => {
+            console.log('res  ', response.data);
+          })
+          .catch(error => {
+            console.log('err',error);
+          });
     }
+  }
 }
+
 </script>

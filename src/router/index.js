@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/components/index'
 import Section from '@/components/Section'
-import HelloWorld from '@/components/HelloWorld'
+import Product from '@/components/Product'
 Vue.use(Router)
 
 export default new Router({ 
@@ -18,9 +18,9 @@ routes:[
     component: Section
   },
   {
-    path: '/helloworld',
-    name: 'helloworld',
-    component: HelloWorld
+    path: '/product',
+    name: 'product',
+    component: Product
   }     
 ]  
 })
