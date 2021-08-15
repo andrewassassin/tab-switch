@@ -4,21 +4,20 @@
         <div class="container">
             <!-- 修正排版為三項排一排 -->
             <div class="row">
-                <div class="col-md-4">
-                    <div class="intro-box">
-                        <div class="icon text-primary py-3">
-                            <i class="fas fa-paper-plane fa-5x" aria-hidden="true"></i>
+                <div class="">
+                    <div class="">
+                        <div class="">               
                         </div>
-                        <h3 class="text-secondary">Fast Deploy</h3>
-                        <div class="intro-line bg-primary"></div>
+                        <h3 class="">Fast Deploy</h3>
+                        <div class=""></div>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit possimus aliquam dolor
                             sit hic quae!</p>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="">
                     <div class="intro-box">
                         <div class="icon text-primary py-3">
-                            <i class="fas fa-briefcase fa-5x" aria-hidden="true"></i>
+                           
                         </div>
                         <h3 class="text-secondary">Stable</h3>
                         <div class="intro-line bg-primary"></div>
@@ -29,7 +28,7 @@
                 <div class="col-md-4">
                     <div class="intro-box">
                         <div class="icon text-primary py-3">
-                            <i class="fas fa-gem fa-5x" aria-hidden="true"></i>
+                          
                         </div>
                         <h3 class="text-secondary">Persistence</h3>
                         <div class="intro-line bg-primary"></div>
@@ -75,43 +74,5 @@
 /*=============================================
 =                  Intro                      =
 =============================================*/
-.intro-box,
-.intro-line,
-.intro-box .icon {
-    transition: all .3s ease;
-}
 
-.intro-box:hover {
-    background: white;
-    box-shadow: 0px 22px 22px rgba(0,0,0,.25);
-    bottom: 7px;
-}
-
-.intro-line {
-    width: 20px;
-    height: 6px;
-    border-radius: 3px;
-    margin: 10px auto;
-}
-
-.intro-box:hover .intro-line {
-    width: 40px;
-}
-
-.intro-box .icon {
-    transform: scale(.8);
-}
-
-.intro-box:hover .icon {
-    transform: scale(1);
-}
-
-.intro-box {
-    border-radius: 15px;
-    margin-bottom: 15px;
-    padding: 15px 15px;
-    text-align: center;
-    position: relative;
-    bottom: 0px;
-}
 </style>

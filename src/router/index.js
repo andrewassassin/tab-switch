@@ -1,8 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import index from '@/components/index'
-import Section from '@/components/Section'
+import Create from '@/components/Create'
 import Product from '@/components/Product'
+import Register from '@/components/Register'
+import Login from '@/components/Login'
 Vue.use(Router)
 
 export default new Router({ 
@@ -13,14 +15,24 @@ routes:[
     component: index
   },
   {
-    path: '/section',
-    name: 'section',
-    component: Section
+    path: '/create',
+    name: 'create',
+    component: Create
   },
   {
     path: '/product',
     name: 'product',
     component: Product
-  }     
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: Register
+  },
+  {
+    path: '/login',
+    name: 'login',
+    component: Login
+  }          
 ]  
 })

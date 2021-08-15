@@ -80,6 +80,11 @@ export default {
 }
 </script>
 <style >
+#modal {
+  position: fixed;
+  z-index: 500000;
+
+}
 
 .DivOverlapMask{
   position:fixed;
@@ -96,7 +101,7 @@ export default {
 .DivDialog{
   position:fixed;
   width:800px;
-  height:500px;
+  height:800px;
   margin:0;
   padding:20px;
   background-color: #ffffff;
