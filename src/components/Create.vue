@@ -62,7 +62,7 @@ export default {
               name: event.target[0].value,
               price: event.target[1].value,
               image: `../../static/img/${this.image.name}` ,
-              category:$("#productCategory").val(),
+              category: event.target[3].value,
               createdAt: new Date().getTime()
             }
               const config = {
