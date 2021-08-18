@@ -5,16 +5,16 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-5">
                 <li class="nav-item active mr-5">
-                    <router-link to="product">商品詳情</router-link>
+                    <router-link to="/product">商品詳情</router-link>
                 </li>
                 <li class="nav-item mr-5">
-                    <router-link to="create">建立商品</router-link>
+                    <router-link to="/create">建立商品</router-link>
                 </li>
                 <li class="nav-item mr-5">
-                    <router-link to="register">註冊</router-link>
+                    <router-link to="/register">註冊</router-link>
                 </li>
                  <li class="nav-item">
-                    <router-link to="login">登入</router-link>
+                    <router-link to="/login">登入</router-link>
                 </li>
                 </ul>
             </div>

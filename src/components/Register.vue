@@ -4,18 +4,18 @@
     <section class="py-3">
         <div class="container">
             <div class="row">
-                <form id="registerForm" class="container col-md-6 py-3">
+                <form id="registerForm" v-on:submit.prevent="registerForm($event)" class="container col-md-6 py-3">
                     <div class="form-group">
                         <label for="userName">會員帳號</label>
-                        <input type="text" placeholder="請輸入帳號" id="userName" class="form-control" required>
+                        <input type="text" v-model="user.username" placeholder="請輸入帳號" id="userName" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label for="userPwd">會員密碼</label>
-                        <input type="password" placeholder="請輸入密碼" id="userPwd" class="form-control"  required>
+                        <input type="password" v-model="user.password" placeholder="請輸入密碼" id="userPwd" class="form-control"  required>
                     </div>
                    <div class="form-group">
                         <label for="nickName">會員姓名</label>
-                        <input type="text" id="nickName" class="form-control" required>
+                        <input type="text" v-model="user.name" id="nickName" class="form-control" required>
                     </div>
                     <div class="form-group my-4">
                         <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> 註冊</button>
@@ -34,20 +34,25 @@ export default {
     name: 'Register',
     data () {
         return {
-        msg: '會員註冊'
+            msg: '會員註冊',
+            user:{
+                username:'',
+                password:'',
+                name:''
+            }
         }
     }, 
-    mounted(){
-        $("#registerForm").unbind('submit').bind('submit',function(e){
+    methods: {
+        registerForm(event){
             console.log('submit')
-            e.preventDefault();
             const data = {
-            username: $("#userName").val(),
-            password:$("#userPwd").val(),
-            name: $("#nickName").val()
+                username: this.user.username,
+                password: this.user.password,
+                name: this.user.name
             }
+            console.log('data',data)
             const config = {
-            responseType: 'text'
+                responseType: 'text'
             };
             axios.post("http://localhost/Amitproject/register.php#/", data, config)
                 .then(response => {
@@ -56,7 +61,7 @@ export default {
                 .catch(error => {
                 console.log('err',error);
                 });
-        })     
+        }
     }
 }
 </script>

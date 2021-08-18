@@ -5,6 +5,7 @@ import Create from '@/components/Create'
 import Product from '@/components/Product'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
+import Item from '@/components/Item'
 Vue.use(Router)
 
 export default new Router({ 
@@ -33,6 +34,13 @@ routes:[
     path: '/login',
     name: 'login',
     component: Login
-  }          
+  },
+  {
+    path: `/product/:id`,
+    name: 'item',
+    props: true,
+    component: Item
+  }
+          
 ]  
 })
