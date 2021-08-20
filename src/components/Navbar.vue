@@ -22,7 +22,7 @@
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
                         <button v-on:click.prevent="clickMe()" class="btn btn-primary"  type="click">
-                            上欄購物車
+                          購物車
                         </button>
                     </li>
                 </ul>

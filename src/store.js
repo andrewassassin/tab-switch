@@ -5,7 +5,7 @@ Vue.use(Vuex);
 // 定義一個新的 Vue Store
 const store = new Vuex.Store({
     state: {
-      Loaded: 'false',
+      Loaded: '',
     },
     mutations: {
       MyMutations(state) {
@@ -13,8 +13,9 @@ const store = new Vuex.Store({
         // 抓到user之後，將state的loaded改為true
         state.Loaded = true;
       },
-      SetFalse(state) {
-        state.Loaded = 'hi';
+      ProductTitle(state,item) {
+        
+        state.Loaded = item.name;
       }
     }
   })

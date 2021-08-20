@@ -59,8 +59,11 @@ export default {
     methods:{
       goToProduct(event){
         const id = event.currentTarget.id
-        console.log('id',id)
-        this.$store.commit("SetFalse");
+          const item = this.productList.find(item=>{
+                return item.id == id
+          })
+          console.log('productsss',item)     
+        this.$store.commit("ProductTitle",item);
         this.$router.push({
             path: `/product/${id}`,
             component: Item,

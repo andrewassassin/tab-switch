@@ -1,7 +1,7 @@
 <template>
   <div id="modal" class="container">
     <div class = "DivOverlapMask row justify-content-center align-items-center">
-      <div class=" DivDialog" :style="{'z-index': zIndex}">
+      <div class=" DivDialog">
         <div class="row justify-content-between">
             <h5 class="ml-3" >
                 <i class="fas fa-shopping-cart"></i> 購物車
