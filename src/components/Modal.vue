@@ -24,7 +24,7 @@
                   <tr>
                       <td>
                           <div class="d-flex">
-                              <button :id="`${idx}`" type="button" class="delete-btn btn btn-danger btn-sm">
+                              <button v-on:click.prevent="deleteBtn($event)" :id="`${idx}`" type="button" class="delete-btn btn btn-danger btn-sm">
                                   &times;
                               </button>
                               <div>
@@ -65,16 +65,29 @@
 export default {
      data() {
             return {
-              
+              key:''
             }
     },
     methods: {
       closeBtn () {
         this.$emit('closeBtn')
       },
+      deleteBtn (event) {
+        const idx = event.currentTarget.id
+        this.itemList.splice(idx, 1)
+        // return this.$store.state.itemList;
+        this.updateDataToStorage()
+      },
+      updateDataToStorage() {
+        const itemListStr = JSON.stringify(this.itemList);
+        localStorage.setItem(this.key, itemListStr);
+      }
+
     },
-    mounted() {
-      console.log('item ni modal',this.itemList)
+    created() {
+          const itemListStr = localStorage.getItem(this.key);
+            const defaultList = JSON.parse(itemListStr);
+            this.$store.state.itemList = defaultList || []; 
     },
     computed: {
     // 2. 將 state 中的 Loaded 用 computed 抓出來給 userLoaded 做使用

@@ -45,9 +45,9 @@ export default {
        axios.get("http://localhost/Amitproject/product.php#/")
           .then(response => {
             // let a = JSON.parse(response.data)
-            console.log('res  ',response);
+            // console.log('res  ',response);
             response.data.forEach(element => {
-              console.log('ele',element)
+              // console.log('ele',element)
               this.productList.push(element)
               
             });

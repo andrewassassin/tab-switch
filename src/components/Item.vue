@@ -52,7 +52,7 @@ export default {
         }
         console.log('商品詳情 ',item)
         this.itemList.push(item)
-        console.log('itemList  ',this.itemList)
+        // console.log('itemList  ',this.itemList)
         this.$store.commit("itemList",this.itemList);
         this.updateDataToStorage()
       },
@@ -62,6 +62,7 @@ export default {
       }
     }, 
     mounted () {
+        this.$store.commit("itemList",this.itemList);
         console.log('loaded value:   ',this.$store.state.Loaded)
          axios.get("http://localhost/Amitproject/product.php#/")
           .then(response => {
@@ -70,12 +71,12 @@ export default {
             response.data.forEach(element => {
             //   console.log('ele',element)
               this.productList.push(element) 
-              console.log('productList',this.productList)
+              // console.log('productList',this.productList)
             const pid = this.id
             const item = this.productList.find(item=>{
                 return item.id == pid
           })
-          console.log('item',item)     
+          // console.log('item',item)     
           this.product = item     
             });
           })

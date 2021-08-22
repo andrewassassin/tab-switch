@@ -9,11 +9,6 @@ const store = new Vuex.Store({
       itemList:[]
     },
     mutations: {
-      MyMutations(state) {
-        console.log('MyMutations run!');
-        // 抓到user之後，將state的loaded改為true
-        state.Loaded = true;
-      },
       setTitle(state,item) {
         state.Loaded = item.name;
       },
