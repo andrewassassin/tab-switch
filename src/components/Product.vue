@@ -63,7 +63,7 @@ export default {
                 return item.id == id
           })
           console.log('productsss',item)     
-        this.$store.commit("ProductTitle",item);
+        this.$store.commit("setTitle",item);
         this.$router.push({
             path: `/product/${id}`,
             component: Item,

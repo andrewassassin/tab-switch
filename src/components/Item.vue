@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>{{userLoaded}}</h1>
+    <h1>{{productTitle}}</h1>
     <section class="py-3">
       <div class="container">
           <div class="row align-items-center">
@@ -53,6 +53,7 @@ export default {
         console.log('商品詳情 ',item)
         this.itemList.push(item)
         console.log('itemList  ',this.itemList)
+        this.$store.commit("itemList",this.itemList);
         this.updateDataToStorage()
       },
       updateDataToStorage() {
@@ -61,6 +62,7 @@ export default {
       }
     }, 
     mounted () {
+        console.log('loaded value:   ',this.$store.state.Loaded)
          axios.get("http://localhost/Amitproject/product.php#/")
           .then(response => {
             // let a = JSON.parse(response.data)
@@ -101,7 +103,7 @@ export default {
     },
     computed: {
     // 2. 將 state 中的 Loaded 用 computed 抓出來給 userLoaded 做使用
-        userLoaded() {
+        productTitle() {
         return this.$store.state.Loaded;
         }
   },

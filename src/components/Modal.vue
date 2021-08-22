@@ -24,19 +24,19 @@
                   <tr>
                       <td>
                           <div class="d-flex">
-                              <button v-on:click.prevent="deleteBtn($event)" :id="`${idx}`" type="button" class="delete-btn btn btn-danger btn-sm">
+                              <button :id="`${idx}`" type="button" class="delete-btn btn btn-danger btn-sm">
                                   &times;
                               </button>
                               <div>
-                                  <p class="m-0">{{item.title}}</p>
+                                  <p class="m-0">{{item.name}}</p>
                               </div>
                           </div>
                       </td>
                       <td class="text-right">$ {{item.price}}</td>
                       <td class="text-right">
-                        <button v-on:click.prevent="minusBtn($event)" :id="`${idx}`" class="counter-btn" >-</button>
+                        <button :id="`${idx}`" class="counter-btn" >-</button>
                           {{item.amount}}
-                        <button v-on:click.prevent="addBtn($event)" :id="`${idx}`" class="counter-btn" >+</button>
+                        <button :id="`${idx}`" class="counter-btn" >+</button>
                       </td>
                       <td class="text-right">$ {{item.price*item.amount}}</td>
                   </tr>
@@ -44,13 +44,13 @@
                 <tfoot id="cartTableFoot">
                   <tr>
                   <th>總金額</th>
-                  <td colspan="3" class="text-right">$ {{getCartValue}}</td>
+                  <td colspan="3" class="text-right">$</td>
                   </tr>
                 </tfoot>
             </table>
         </div>
         <div class="text-right">
-            <button id="clearCartBtn" v-on:click.prevent="clearBtn($event)" type="button" class="btn btn-danger">
+            <button id="clearCartBtn" type="button" class="btn btn-danger">
                 <i class="fas fa-trash-alt"></i> 清空購物車
             </button>
             <button type="button" v-on:click.prevent="closeBtn()" class="btn btn-secondary" >
@@ -65,18 +65,24 @@
 export default {
      data() {
             return {
-                zIndex: this.getZIndex(),
+              
             }
-        },
-    methods: {
-    closeBtn () {
-      this.$emit('closeBtn')
     },
-      getZIndex() {
-                let zIndexInit = 20190315;
-                return zIndexInit++
-            }
-}
+    methods: {
+      closeBtn () {
+        this.$emit('closeBtn')
+      },
+    },
+    mounted() {
+      console.log('item ni modal',this.itemList)
+    },
+    computed: {
+    // 2. 將 state 中的 Loaded 用 computed 抓出來給 userLoaded 做使用
+        itemList() {
+        console.log('vuex itemList ',this.$store.state.itemList)  
+        return this.$store.state.itemList;
+        }
+  },
 }
 </script>
 <style >
