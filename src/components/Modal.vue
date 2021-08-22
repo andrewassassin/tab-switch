@@ -44,13 +44,13 @@
                 <tfoot id="cartTableFoot">
                   <tr>
                   <th>總金額</th>
-                  <td colspan="3" class="text-right">$</td>
+                  <td colspan="3" class="text-right">$ {{getCartValue}}</td>
                   </tr>
                 </tfoot>
             </table>
         </div>
         <div class="text-right">
-            <button id="clearCartBtn" type="button" class="btn btn-danger">
+            <button id="clearCartBtn" v-on:click.prevent="clearBtn($event)" type="button" class="btn btn-danger">
                 <i class="fas fa-trash-alt"></i> 清空購物車
             </button>
             <button type="button" v-on:click.prevent="closeBtn()" class="btn btn-secondary" >
@@ -63,10 +63,10 @@
 </template>
 <script>
 export default {
-     data() {
-            return {
-              key:''
-            }
+    data() {
+        return {
+          key:''
+        }
     },
     methods: {
       closeBtn () {
@@ -78,6 +78,10 @@ export default {
         // return this.$store.state.itemList;
         this.updateDataToStorage()
       },
+      clearBtn () {
+        this.$store.state.itemList=[]
+        this.updateDataToStorage()
+      },
       updateDataToStorage() {
         const itemListStr = JSON.stringify(this.itemList);
         localStorage.setItem(this.key, itemListStr);
@@ -85,17 +89,23 @@ export default {
 
     },
     created() {
-          const itemListStr = localStorage.getItem(this.key);
-            const defaultList = JSON.parse(itemListStr);
-            this.$store.state.itemList = defaultList || []; 
+        const itemListStr = localStorage.getItem(this.key);
+        const defaultList = JSON.parse(itemListStr);
+        this.$store.state.itemList = defaultList || []; 
     },
     computed: {
     // 2. 將 state 中的 Loaded 用 computed 抓出來給 userLoaded 做使用
         itemList() {
-        console.log('vuex itemList ',this.$store.state.itemList)  
-        return this.$store.state.itemList;
+          console.log('vuex itemList ',this.$store.state.itemList)  
+          return this.$store.state.itemList;
+        },
+        getCartValue () {
+          return this.itemList.reduce((cartValue, item) => {
+            const itemValue = item.price * item.amount
+            return cartValue + itemValue
+          }, 0)
         }
-  },
+     },
 }
 </script>
 <style >
