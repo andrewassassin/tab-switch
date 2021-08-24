@@ -40,21 +40,30 @@ export default {
     methods:{
         loginForm (event) {
             console.log('submit')
-            const data = {
+             const data = {
                 username: this.user.username,
                 password: this.user.password,
             }
             const config = {
-              responseType: 'text'
-            };
-            axios.post("http://localhost/Amitproject/login.php#/", data, config)
+           headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          }
+            };                 
+            axios.post("https://x-home.pcpogo.com/homex/login.php?RDEBUG=andrewc", data, config)
                 .then(response => {
-                    console.log('res  ', response);
+                    console.log('res  ', response.data);
+                    this.$store.commit('login',response.data);
+                   
+                  
                 })
                 .catch(error => {
                     console.log('err',error);
                 });
-        }
+
+                    // this.$store.commit('login',this.user);
+                    // this.$router.push('./');
+         }          
     }
+
 }
 </script>

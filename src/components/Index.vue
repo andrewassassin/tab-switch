@@ -1,6 +1,6 @@
 <template>
       <section id="introSection" class="py-5">
-        <h1 class="section-title text-center text-secondary mb-5">Intro</h1>
+        <h1 class="section-title text-center text-secondary mb-5">hi {{username}}</h1>
         <div class="container">
             <!-- 修正排版為三項排一排 -->
             <div class="row">
@@ -76,3 +76,13 @@
 =============================================*/
 
 </style>
+<script>
+export default {
+    computed: {
+    // 2. 將 state 中的 Loaded 用 computed 抓出來給 userLoaded 做使用
+        username() {
+        return this.$store.state.userInfo;
+        }
+  }
+}
+</script>
