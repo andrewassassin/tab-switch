@@ -66,9 +66,11 @@ export default {
               createdAt: new Date().getTime()
             }
               const config = {
-                responseType: 'text'
+                headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          }
               };
-              axios.post("http://localhost/Amitproject/insert.php#/", product, config)
+              axios.post("https://x-home.pcpogo.com/homex/insert.php?RDEBUG=andrewc", product, config)
                   .then(response => {
                     console.log('res  ', response);
                   })

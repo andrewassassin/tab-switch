@@ -50,11 +50,13 @@ export default {
                 password: this.user.password,
                 name: this.user.name
             }
-            console.log('data',data)
-            const config = {
-                responseType: 'text'
-            };
-            axios.post("http://localhost/Amitproject/register.php#/", data, config)
+            // console.log('data',data)
+          const config = {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      };
+            axios.post("https://x-home.pcpogo.com/homex/register.php?RDEBUG=andrewc", data, config)
                 .then(response => {
                 console.log('res  ', response);
                 })

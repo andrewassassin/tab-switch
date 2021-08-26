@@ -112,10 +112,15 @@ export default {
     Modal
   },
   mounted(){
-       axios.get("http://localhost/Amitproject/product.php#/")
+        const config = {
+               headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          }
+              };
+       axios.get("https://x-home.pcpogo.com/homex/product.php?RDEBUG=andrewc",config)
           .then(response => {
             // let a = JSON.parse(response.data)
-            // console.log('res  ',response);
+            console.log('res  ',response);
             response.data.forEach(element => {
               // console.log('ele',element)
               this.productList.push(element)

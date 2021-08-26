@@ -6,7 +6,8 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
     state: {
       Loaded: 'hi',
-      itemList:[]
+      itemList:[],
+      isLogin:''
     },
     mutations: {
       setTitle(state,item) {
@@ -14,8 +15,10 @@ const store = new Vuex.Store({
       },
       itemList(state,item) {
         state.itemList = item
-      }
-
+      },
+      login(state,v) {
+        state.userInfo = v;
+      }  
     }
   })
 export default store;

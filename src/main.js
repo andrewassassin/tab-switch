@@ -21,3 +21,17 @@ new Vue({
   components: { App },
   template: '<App/>'
 })
+
+router.beforeEach((to,from,next) => { 
+  if(to.matched.some( m => m.meta.auth)){ 
+    // 對路由進行驗證 
+    if(store.state.isLogin=='ok') {
+    // 已經登陸 
+      next 
+    }else {
+      // 未登錄則跳轉到登陸界面，
+      query:{ Rurl: to.fullPath}
+    }
+
+  }
+})
