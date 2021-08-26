@@ -12,6 +12,7 @@
                         <div class=""></div>
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit possimus aliquam dolor
                             sit hic quae!</p>
+                            <button ref="btn">測試按鈕</button>
                     </div>
                 </div>
                 <div class="">
@@ -83,6 +84,9 @@ export default {
         username() {
         return this.$store.state.userInfo;
         }
+  },
+  mounted(){
+      this.$refs.btn.style.color="#d41b1b"
   }
 }
 </script>

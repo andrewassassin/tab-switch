@@ -75,7 +75,6 @@ export default {
       deleteBtn (event) {
         const idx = event.currentTarget.id
         this.itemList.splice(idx, 1)
-        // return this.$store.state.itemList;
         this.updateDataToStorage()
       },
       clearBtn () {
@@ -90,6 +89,7 @@ export default {
     },
     created() {
         const itemListStr = localStorage.getItem(this.key);
+        console.log('itemListStr',itemListStr)
         const defaultList = JSON.parse(itemListStr);
         this.$store.state.itemList = defaultList || []; 
     },

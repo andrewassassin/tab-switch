@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>{{productTitle}}</h1>
+    <h1 ref="text">{{text}}</h1>
     <section class="py-3">
       <div class="container">
           <div class="row align-items-center">
@@ -39,9 +39,9 @@ export default {
         return {
             productList:[],
             product:{},
-            itemList: [],
             amount:'',
-            key:''
+            key:'',
+            text: 'before created'
         }
     },
     methods: {
@@ -51,13 +51,11 @@ export default {
           amount: this.amount         
         }
         console.log('商品詳情 ',item)
-        this.itemList.push(item)
-        // console.log('itemList  ',this.itemList)
-        this.$store.commit("itemList",this.itemList);
+        this.$store.commit("itemList",item);
         this.updateDataToStorage()
       },
       updateDataToStorage() {
-        const itemListStr = JSON.stringify(this.itemList);
+        const itemListStr = JSON.stringify(this.$store.state.itemList);
             localStorage.setItem(this.key, itemListStr);
       }
     }, 
@@ -67,8 +65,7 @@ export default {
             "Content-Type": "application/x-www-form-urlencoded",
           }
            };
-        this.$store.commit("itemList",this.itemList);
-        console.log('loaded value:   ',this.$store.state.Loaded)
+        // this.$store.commit("itemList",this.itemList);
          axios.get("https://x-home.pcpogo.com/homex/product.php?RDEBUG=andrewc",config)
           .then(response => {
             // let a = JSON.parse(response.data)
@@ -94,23 +91,16 @@ export default {
                 // 一開啟網頁就更新itemList內容
             const itemListStr = localStorage.getItem(this.key);
             const defaultList = JSON.parse(itemListStr);
-            this.itemList = defaultList || []; 
-
-　　　　　　　　//在頁面載入時讀取sessionStorage裡的狀態資訊, for vuex
-            if (sessionStorage.getItem("store") ) {
-                this.$store.replaceState(Object.assign({}, this.$store.state,JSON.parse(sessionStorage.getItem("store"))))
-            }
-
-            //在頁面重新整理時將vuex裡的資訊儲存到sessionStorage裡
-            window.addEventListener("beforeunload",()=>{
-                sessionStorage.setItem("store",JSON.stringify(this.$store.state))
-            })
-        
+            this.$store.state.itemList = defaultList || []; 
+            this.$nextTick(() => {
+              this.text = 'created end'
+             })
+      	    this.text = 'after created'    
     },
     computed: {
     // 2. 將 state 中的 Loaded 用 computed 抓出來給 userLoaded 做使用
-        productTitle() {
-        return this.$store.state.Loaded;
+        itemList(){
+           return this.$store.state.itemList;
         }
   },
   props: {

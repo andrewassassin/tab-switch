@@ -14,7 +14,7 @@ const store = new Vuex.Store({
         state.Loaded = item.name;
       },
       itemList(state,item) {
-        state.itemList = item
+        state.itemList.push(item)
       },
       login(state,v) {
         state.userInfo = v;
