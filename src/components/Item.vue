@@ -66,7 +66,7 @@ export default {
           }
            };
         // this.$store.commit("itemList",this.itemList);
-         axios.get("https://x-home.pcpogo.com/homex/product.php?RDEBUG=andrewc",config)
+         axios.get("http://localhost/Amitproject/product.php#/",config)
           .then(response => {
             // let a = JSON.parse(response.data)
             // console.log('res  ',response);

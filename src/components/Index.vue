@@ -1,72 +1,14 @@
-<template>
-      <section id="introSection" class="py-5">
-        <h1 class="section-title text-center text-secondary mb-5">hi {{username}}</h1>
-        <div class="container">
-            <!-- 修正排版為三項排一排 -->
-            <div class="row">
-                <div class="">
-                    <div class="">
-                        <div class="">               
-                        </div>
-                        <h3 class="">Fast Deploy</h3>
-                        <div class=""></div>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit possimus aliquam dolor
-                            sit hic quae!</p>
-                            <button ref="btn">測試按鈕</button>
-                    </div>
-                </div>
-                <div class="">
-                    <div class="intro-box">
-                        <div class="icon text-primary py-3">
-                           
-                        </div>
-                        <h3 class="text-secondary">Stable</h3>
-                        <div class="intro-line bg-primary"></div>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit possimus aliquam dolor
-                            sit hic quae!</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="intro-box">
-                        <div class="icon text-primary py-3">
-                          
-                        </div>
-                        <h3 class="text-secondary">Persistence</h3>
-                        <div class="intro-line bg-primary"></div>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit possimus aliquam dolor
-                            sit hic quae!</p>
-                    </div>
-                </div>
-            </div>
-            <!-- 設定此區塊距離上方5倍margin -->
-            <!-- 修正排版在md時六個排一排 sm三個排一排 sm以下兩個排一排-->
-            <div class="row mt-5">
-                <div class="col-md-2 col-sm-4 col-6 text-center">
-                    <i class="fas fa-tree fa-2x text-secondary" aria-hidden="true"></i>
-                    <h5 class="mt-3 text-secondary">Cozy Office</h5>
-                </div>
-                <div class="col-md-2 col-sm-4 col-6 text-center">
-                    <i class="fas fa-coffee fa-2x text-secondary" aria-hidden="true"></i>
-                    <h5 class="mt-3 text-secondary">Free coffee bar</h5>
-                </div>
-                <div class="col-md-2 col-sm-4 col-6 text-center">
-                    <i class="fas fa-id-card fa-2x text-secondary" aria-hidden="true"></i>
-                    <h5 class="mt-3 text-secondary">Profesional Team</h5>
-                </div>
-                <div class="col-md-2 col-sm-4 col-6 text-center">
-                    <i class="fas fa-language fa-2x text-secondary" aria-hidden="true"></i>
-                    <h5 class="mt-3 text-secondary">Linguist</h5>
-                </div>
-                <div class="col-md-2 col-sm-4 col-6 text-center">
-                    <i class="fas fa-rocket fa-2x text-secondary" aria-hidden="true"></i>
-                    <h5 class="mt-3 text-secondary">Hackers Spirit</h5>
-                </div>
-                <div class="col-md-2 col-sm-4 col-6 text-center">
-                    <i class="fas fa-graduation-cap fa-2x text-secondary" aria-hidden="true"></i>
-                    <h5 class="mt-3 text-secondary">Self-Learning</h5>
-                </div>
-            </div>
-        </div>
+
+<template >
+      <section id="introSection" >
+            <picture class="picture">
+                <div class="mockup"></div>
+                <img data-src="../../static/img/001.jpg" class="" alt="">
+
+                 
+            
+            </picture>
+        
     </section>
 </template>
 
@@ -79,14 +21,54 @@
 </style>
 <script>
 export default {
-    computed: {
-    // 2. 將 state 中的 Loaded 用 computed 抓出來給 userLoaded 做使用
-        username() {
-        return this.$store.state.userInfo;
-        }
-  },
   mounted(){
-      this.$refs.btn.style.color="#d41b1b"
+      const html = document.documentElement 
+      html.classList.add("no-js")
+      const { documentElement } = document
+        documentElement.classList.length > 1
+            ? documentElement.classList.remove('no-js')
+            : documentElement.removeAttribute('class')
+        window.addEventListener('load', this.removeMockup);
+        window.addEventListener('load', this.loadImage);
+        window.addEventListener('load', this.onEnterView);
+        window.addEventListener('load', this.onEnterView);
+        window.addEventListener('load', this.lazyLoading);
+        
+  },
+  methods:{
+       removeMockup(event){
+        console.log('event',event.target)
+        const mockup = event.target.previousElementSibling
+        mockup.addEventListener('transitionend', mockup.remove)
+        mockup.classList.remove('loading')
+        mockup.classList.add('fade-out')
+      },
+      loadImage(img){
+        img.previousElementSibling.classList.add('loading')
+        img.setAttribute('src', img.dataset.src)
+        img.removeAttribute('data-src')
+        img.addEventListener('load', removeMockup)
+      },
+      onEnterView(entries, observer){
+          for (let entry of entries) {
+            if (entry.isIntersecting) {
+                loadImage(entry.target)
+                observer.unobserve(entry.target)
+            }
+        }
+      },
+      lazyLoading(){
+        const watcher = new IntersectionObserver(this.onEnterView())
+        const lazyImages = document.querySelectorAll('.img.lazy')
+        for (let image of lazyImages) {
+            watcher.observe(image)
+        }
+      }
   }
+
 }
 </script>
+<style scoped>
+
+
+</style>

@@ -3,6 +3,7 @@
     <h1>{{ msg }}</h1>
     <section class="py-3">
         <div class="container">
+            <loading :active.sync="isLoading"></loading>
             <div class="row">
                 <form id="LoginForm" v-on:submit.prevent="loginForm($event)" class="container col-md-6 py-3">
                     <div class="form-group">
@@ -34,11 +35,14 @@ export default {
                 username:'',
                 password:'',
                 name:''
-            }
+            },
+        isLoading: false    
         }
     }, 
     methods:{
         loginForm (event) {
+            const vm = this
+             vm.isLoading = true 
             console.log('submit')
              const data = {
                 username: this.user.username,
@@ -49,17 +53,17 @@ export default {
             "Content-Type": "application/x-www-form-urlencoded",
           }
             };                 
-            axios.post("https://x-home.pcpogo.com/homex/login.php?RDEBUG=andrewc", data, config)
+            axios.post("http://localhost/Amitproject/login.php#/", data, config)
                 .then(response => {
                     console.log('res  ', response.data);
                     this.$store.commit('login',response.data);
-                   
+                   vm.isLoading = false 
                   
                 })
                 .catch(error => {
                     console.log('err',error);
                 });
-
+                
                     // this.$store.commit('login',this.user);
                     // this.$router.push('./');
          }          

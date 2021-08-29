@@ -9,6 +9,18 @@ import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import axios from 'axios'
 
+// import vue loading
+import Loading from 'vue-loading-overlay' //component
+import 'vue-loading-overlay/dist/vue-loading.css' //style
+Vue.component('Loading', Loading)
+
+
+
+
+
+
+
+
 Vue.config.productionTip = false
 
 Vue.use(BootstrapVue)

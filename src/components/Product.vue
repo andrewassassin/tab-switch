@@ -4,18 +4,26 @@
       <div class="container">
         <h2 class="text-center mb-2">產品列表</h2>
           <div class="row">
-            <div class="col-md-6" v-for="product in productList" :key="product.key">
-              <div class="card my-5 mx-5">
-                <img :src="`${product.image}`" :id="`${product.id}`" @click="goToProduct($event)" class="card-img-top">
-                  <div class="card-body">
-                    <h4 class="card-title">{{product.name}}</h4>
-                    <h4>
-                      <span class="badge badge-info">
-                      {{product.category}}
-                      </span>
-                    </h4>
-                    <p class="card-text"> $ {{product.price}} NTD</p>               
-                  </div>
+            <div class="col-md-4" v-for="product in productList" :key="product.key">
+              <div class="card my-5 mx-2">
+                <div class="slide-img">
+
+                  <img :src="`${product.image}`" class="card-img-top">
+                
+                    <div class="overlay">
+                      <a :id="`${product.id}`" @click="goToProduct($event)" class="buy-btn">Buy Now</a>	
+                    </div>
+                  
+                </div>
+                <div class="card-body">
+                  <h4 class="card-title">{{product.name}}</h4>
+                  <h4>
+                    <span class="badge badge-info">
+                    {{product.category}}
+                    </span>
+                  </h4>
+                  <p class="card-text"> $ {{product.price}} NTD</p>               
+                </div>
               </div>
             </div>
           </div>
@@ -112,13 +120,15 @@ export default {
     Modal
   },
   mounted(){
+    const aa = document.getElementById("tab-inner").querySelectorAll(".form-content")
+    console.log('aa',aa)
      this.panelDisplay(0)
         const config = {
                headers: {
             "Content-Type": "application/x-www-form-urlencoded",
           }
               };
-       axios.get("https://x-home.pcpogo.com/homex/product.php?RDEBUG=andrewc",config)
+       axios.get("http://localhost/Amitproject/product.php#/",config)
           .then(response => {
             // let a = JSON.parse(response.data)
             console.log('res  ',response);
@@ -134,7 +144,7 @@ export default {
          
     },
     methods:{
-      goToProduct(event){
+      goToProduct(event){   
         const id = event.currentTarget.id
           const item = this.productList.find(item=>{
                 return item.id == id
@@ -184,6 +194,7 @@ export default {
 
 </script>
 <style scoped>
+@import url("@fortawesome/fontawesome-free/css/all.css");
 
 a{
   text-decoration: none;
@@ -303,4 +314,61 @@ a{
   }
 }
 
+.slide-img{
+	height: 450px;
+	position:relative;
+}
+.slide-img img{
+	width:100%;
+	height: 100%;
+	object-fit: cover;
+	box-sizing: border-box;
+}
+
+.overlay{
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%,-50%);
+	width:100%;
+	height: 100%;
+	background-color: rgba(58, 53, 53, 0.6);
+	display: flex;
+	justify-content: center;
+  opacity: 0;
+	align-items: center;
+  transition: .1s opacity ease-in;
+}
+.buy-btn{
+	width:160px;
+	height: 40px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #FFFFFF;
+	color:#252525;
+	font-weight: 700;
+	letter-spacing: 1px;
+	font-family: calibri;
+	border-radius: 20px;
+	box-shadow: 2px 2px 30px rgba(0,0,0,0.2);
+}
+.buy-btn:hover{
+	color:#FFFFFF;
+	background-color: #2164e0;
+	transition: all ease 0.3s;
+}
+
+.slide-img:hover .overlay{
+  transition: .4s opacity ease-out;
+  opacity: 1;
+}
+
+.fone-de{
+  position: absolute;
+  left: 50px;
+}
+
+
+ 
 </style>
