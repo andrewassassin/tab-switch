@@ -1,14 +1,13 @@
 
 <template >
       <section id="introSection" >
-            <picture class="picture">
-                <div class="mockup"></div>
-                <img data-src="../../static/img/001.jpg" class="" alt="">
-
-                 
-            
-            </picture>
-        
+          <div class="loadingImg">
+        /*ondragstart="return false" 图片禁止拖动*/
+        <img v-lazy="img"alt="" v-for="img in list" ondragstart="return false">
+        <div class="gototop" @click="BackToTop">
+            <a>回到<br>顶部</a>
+        </div>
+    </div> 
     </section>
 </template>
 
@@ -20,55 +19,80 @@
 
 </style>
 <script>
+import $ from 'jquery'
 export default {
+  data(){
+    return{
+       list: [
+        '../../static/img/001.jpg',
+        '../../static/img/002.jpg',
+        '../../static/img/003.jpg',
+        '../../static/img/004.jpg',
+        '../../static/img/005.jpg',
+        '../../static/img/006.jpg',
+        '../../static/img/007.jpg',
+        '../../static/img/008.jpg',
+        '../../static/img/009.jpg',
+        '../../static/img/010.jpg',
+      ],
+    }
+  },
   mounted(){
-      const html = document.documentElement 
-      html.classList.add("no-js")
-      const { documentElement } = document
-        documentElement.classList.length > 1
-            ? documentElement.classList.remove('no-js')
-            : documentElement.removeAttribute('class')
-        window.addEventListener('load', this.removeMockup);
-        window.addEventListener('load', this.loadImage);
-        window.addEventListener('load', this.onEnterView);
-        window.addEventListener('load', this.onEnterView);
-        window.addEventListener('load', this.lazyLoading);
-        
+     window.addEventListener('scroll', this.handleScroll)
+            $(".gototop").hide();
   },
   methods:{
-       removeMockup(event){
-        console.log('event',event.target)
-        const mockup = event.target.previousElementSibling
-        mockup.addEventListener('transitionend', mockup.remove)
-        mockup.classList.remove('loading')
-        mockup.classList.add('fade-out')
-      },
-      loadImage(img){
-        img.previousElementSibling.classList.add('loading')
-        img.setAttribute('src', img.dataset.src)
-        img.removeAttribute('data-src')
-        img.addEventListener('load', removeMockup)
-      },
-      onEnterView(entries, observer){
-          for (let entry of entries) {
-            if (entry.isIntersecting) {
-                loadImage(entry.target)
-                observer.unobserve(entry.target)
-            }
-        }
-      },
-      lazyLoading(){
-        const watcher = new IntersectionObserver(this.onEnterView())
-        const lazyImages = document.querySelectorAll('.img.lazy')
-        for (let image of lazyImages) {
-            watcher.observe(image)
-        }
-      }
+      BackToTop(){
+                $('html,body').animate({ scrollTop: 0 }, 700);
+            },
+            handleScroll () {
+                var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
+                console.log(scrollTop)
+                if(scrollTop >100){
+                    $(".gototop").fadeIn(500);
+                }
+            },
   }
+
 
 }
 </script>
 <style scoped>
-
+img[lazy=loading]{
+}
+img[lazy=loaded]{
+  animation:fade 0.5s;
+}
+img{
+  transition:all 0.5s;
+  display: block;
+  width: 400px;
+  margin: 0 auto;
+}
+@keyframes fade {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+.gototop{
+    width: 40px;
+    height: 40px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background: #f2f2f5;
+    position: fixed;
+    right: 30px;
+    bottom: 50px;
+    font-size: 12px;
+    cursor: pointer;
+}
+.gototop a{
+    color: #666;
+    line-height: 20px;
+    display: inline-block;
+}
 
 </style>
