@@ -6,7 +6,7 @@ import Product from '@/components/Product'
 import Register from '@/components/Register'
 import Login from '@/components/Login'
 import Item from '@/components/Item'
-import Admin from '@/components/Admin'
+import Load from '@/components/load'
 Vue.use(Router)
 
 export default new Router({ 
@@ -43,10 +43,9 @@ routes:[
     component: Item
   },
   {
-    path: `/admin`,
-    name: 'admin',
-    component: Admin,
-    meta:{auth:true}
+    path: `/Load`,
+    name: 'Load',
+    component: Load,
   }
           
 ]  

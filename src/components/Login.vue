@@ -42,30 +42,28 @@ export default {
     methods:{
         loginForm (event) {
             const vm = this
-             vm.isLoading = true 
+            vm.isLoading = true 
             console.log('submit')
              const data = {
                 username: this.user.username,
                 password: this.user.password,
             }
             const config = {
-           headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          }
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                }
             };                 
-            axios.post("http://localhost/Amitproject/login.php#/", data, config)
+            axios.post("https://x-home.pcpogo.com/homex/login.php?RDEBUG=andrewc", data, config)
                 .then(response => {
                     console.log('res  ', response.data);
                     this.$store.commit('login',response.data);
-                   vm.isLoading = false 
+                    vm.isLoading = false 
                   
                 })
                 .catch(error => {
                     console.log('err',error);
                 });
-                
-                    // this.$store.commit('login',this.user);
-                    // this.$router.push('./');
+
          }          
     }
 

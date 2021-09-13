@@ -13,8 +13,11 @@
                 <li class="nav-item mr-5">
                     <router-link to="/register">註冊</router-link>
                 </li>
-                 <li class="nav-item">
+                <li class="nav-item mr-5">
                     <router-link to="/login">登入</router-link>
+                </li>
+                 <li class="nav-item">
+                    <router-link to="/Load">Lazyload</router-link>
                 </li>
                 </ul>
             </div>

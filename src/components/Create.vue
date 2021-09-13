@@ -1,5 +1,7 @@
 <template>
   <div class="create">
+    <img class="img-animation" src="../../static/img/001.jpg" v-if="showImg" alt="">
+    <button @click="showImgplz()">show img</button>
     <h1>新增商品</h1>
     <section class="py-3">
       <div class="container">
@@ -50,11 +52,13 @@ export default {
   data () {
     return {
       preview: null,
-      image: null
+      image: null,
+      showImg:false
     }
   }, 
   methods: {
     createForm (event) {
+        // this.status.fileUploading = true
           console.log('hi')
           //讀取圖片路徑
             console.log("圖片路徑",this.image.name)
@@ -70,7 +74,7 @@ export default {
             "Content-Type": "application/x-www-form-urlencoded",
           }
               };
-              axios.post("http://localhost/Amitproject/insert.php#/", product, config)
+              axios.post("https://x-home.pcpogo.com/homex/insert.php?RDEBUG=andrewc", product, config)
                   .then(response => {
                     console.log('res  ', response);
                   })
@@ -89,8 +93,26 @@ export default {
         console.log('value',this.image.name)
         reader.readAsDataURL(input.files[0]);
       }
+    },
+    showImgplz(){
+      this.showImg = true
     }
 }
 
 }
 </script>
+<style scoped>
+.img-animation{
+  animation:fade 0.5s;
+}
+@keyframes fade {
+  0%{
+    opacity: 0;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
+</style>
+
