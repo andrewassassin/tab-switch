@@ -1,12 +1,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import index from '@/components/index'
-import Create from '@/components/Create'
-import Product from '@/components/Product'
-import Register from '@/components/Register'
-import Login from '@/components/Login'
-import Item from '@/components/Item'
-import Load from '@/components/load'
+import index from '@/views/index'
+import Create from '@/views/Create'
+import Product from '@/views/Product'
+import Register from '@/views/Register'
+import Login from '@/views/Login'
+import Item from '@/views/Item'
 Vue.use(Router)
 
 export default new Router({ 
@@ -41,11 +40,6 @@ routes:[
     name: 'item',
     props: true,
     component: Item
-  },
-  {
-    path: `/Load`,
-    name: 'Load',
-    component: Load,
   }
           
 ]  
