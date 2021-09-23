@@ -8,7 +8,7 @@
               <div class="card my-5 mx-2">
                 <div class="slide-img">
 
-                  <img :src="`${product.image}`" class="card-img-top">
+                  <img :src="`../../static/img/${product.image[0]}`" class="card-img-top">
                 
                     <div class="overlay">
                       <a :id="`${product.id}`" @click="goToProduct($event)" class="buy-btn">Buy Now</a>	
@@ -113,7 +113,8 @@ export default {
   name: 'Navbar',
   data () {
     return {
-      productList:[]
+      productList:[],
+      threeList: []
     }
   },
   components: {
@@ -133,6 +134,7 @@ export default {
             // let a = JSON.parse(response.data)
             console.log('res  ',response);
             response.data.forEach(element => {
+                element.image = JSON.parse(element.image);
               // console.log('ele',element)
               this.productList.push(element)
               

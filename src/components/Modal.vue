@@ -89,7 +89,6 @@ export default {
     },
     created() {
         const itemListStr = localStorage.getItem(this.key);
-        console.log('itemListStr',itemListStr)
         const defaultList = JSON.parse(itemListStr);
         this.$store.state.itemList = defaultList || []; 
     },

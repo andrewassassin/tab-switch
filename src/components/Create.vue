@@ -9,18 +9,18 @@
             <form id="createProductForm" v-on:submit.prevent="createForm($event)" class="container col-md-6 py-3">
                 <div class="form-group">
                     <label for="productName">商品名稱</label>
-                    <input type="text" id="productName" class="form-control" required>
+                    <input type="text" v-model="product.name" id="productName" class="form-control" required>
                 </div>
                 <div class="form-group">
                     <label for="productPrice">商品價格</label>
-                    <input type="number" id="productPrice" class="form-control" min="1" max="90000" required>
+                    <input type="number" v-model="product.price" id="productPrice" class="form-control" min="1" max="90000" required>
                 </div>
                 <div class="form-group">
                     <input type="file" accept="image/*" @change="previewImage">
                 </div> 
                 <div class="form-group">
                     <label for="productCategory">商品分類</label>
-                    <select id="productCategory" class="form-control">
+                    <select v-model="product.category" id="productCategory" class="form-control">
                         <option value="書架喇叭">書架喇叭</option>
                         <option value="腳架" selected>腳架</option>
                         <option value="墊材">墊材</option>
@@ -52,8 +52,14 @@ export default {
   data () {
     return {
       preview: null,
-      image: null,
-      showImg:false
+      image: [],
+      showImg:false,
+      product:{
+        name:'',
+        price:'',
+        image:[],
+        category: ''
+      }
     }
   }, 
   methods: {
@@ -61,14 +67,19 @@ export default {
         // this.status.fileUploading = true
           console.log('hi')
           //讀取圖片路徑
-            console.log("圖片路徑",this.image.name)
+            // console.log("圖片路徑",this.image.name)
+            this.image.forEach(img=>{
+              console.log('img.name',img.name)
+              this.product.image.push(img.name)
+            })
             const product = {
-              name: event.target[0].value,
-              price: event.target[1].value,
-              image: `../../static/img/${this.image.name}` ,
-              category: event.target[3].value,
+              name: this.product.name,
+              price: this.product.price,
+              image: this.product.image,
+              category: this.product.category ,
               createdAt: new Date().getTime()
             }
+             console.log('product',product)
               const config = {
                 headers: {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -89,15 +100,19 @@ export default {
         reader.onload = (e) => {
           this.preview = e.target.result;
         }
-        this.image=input.files[0];
-        console.log('value',this.image.name)
+        this.image.push(input.files[0])
+        console.log('value',this.image)
         reader.readAsDataURL(input.files[0]);
       }
     },
     showImgplz(){
       this.showImg = true
+    },
+   
+},
+mounted(){
+      console.log(55)
     }
-}
 
 }
 </script>

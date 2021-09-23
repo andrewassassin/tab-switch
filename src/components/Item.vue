@@ -1,11 +1,10 @@
 <template>
   <div class="hello">
-    <h1 ref="text">{{text}}</h1>
     <section class="py-3">
       <div class="container">
           <div class="row align-items-center">
             <div class="card my-5 col-md-5">
-              <img :src="`${product.image}`"  class="card-img-top">
+              <img :src="`../../static/img/${product.image[0]}`"  class="card-img-top">
             </div>
             <div class="card-body col-md-6 ">
               <form v-on:submit.prevent="addItem($event)" class="mt-3 card-body">
@@ -41,22 +40,21 @@ export default {
             product:{},
             amount:'',
             key:'',
-            text: 'before created'
         }
     },
     methods: {
       addItem(event) {
-        const item = {
-          ...this.product,
-          amount: this.amount         
-        }
-        console.log('商品詳情 ',item)
-        this.$store.commit("itemList",item);
-        this.updateDataToStorage()
+          const item = {
+            ...this.product,
+            amount: this.amount         
+          }
+          console.log('商品詳情 ',item)
+          this.$store.commit("itemList",item);
+          this.updateDataToStorage()
       },
       updateDataToStorage() {
         const itemListStr = JSON.stringify(this.$store.state.itemList);
-            localStorage.setItem(this.key, itemListStr);
+        localStorage.setItem(this.key, itemListStr);
       }
     }, 
     mounted () {
@@ -68,18 +66,14 @@ export default {
         // this.$store.commit("itemList",this.itemList);
          axios.get("https://x-home.pcpogo.com/homex/product.php?RDEBUG=andrewc",config)
           .then(response => {
-            // let a = JSON.parse(response.data)
-            // console.log('res  ',response);
             response.data.forEach(element => {
-            //   console.log('ele',element)
+              element.image = JSON.parse(element.image);
               this.productList.push(element) 
-              // console.log('productList',this.productList)
-            const pid = this.id
-            const item = this.productList.find(item=>{
-                return item.id == pid
-          })
-          // console.log('item',item)     
-          this.product = item     
+              const pid = this.id
+              const item = this.productList.find(item=>{
+                  return item.id == pid
+              })
+              this.product = item     
             });
           })
           .catch(error => {
@@ -92,17 +86,7 @@ export default {
             const itemListStr = localStorage.getItem(this.key);
             const defaultList = JSON.parse(itemListStr);
             this.$store.state.itemList = defaultList || []; 
-            this.$nextTick(() => {
-              this.text = 'created end'
-             })
-      	    this.text = 'after created'    
     },
-    computed: {
-    // 2. 將 state 中的 Loaded 用 computed 抓出來給 userLoaded 做使用
-        itemList(){
-           return this.$store.state.itemList;
-        }
-  },
   props: {
     id: {
       type: String,
