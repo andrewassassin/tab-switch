@@ -3,8 +3,9 @@
     <section class="py-3">
       <div class="container">
           <div class="row align-items-center">
-            <div class="card my-5 col-md-5">
-              <img :src="`../../static/img/${product.image[0]}`"  class="card-img-top">
+            <div class="justify-content-center align-items-center my-5 col-md-5">
+              <b-spinner class="" v-show="spin" label="Busy"></b-spinner>
+              <img :src="`../../static/img/${product.image[0]}`" @load="loaded" class="card-img-top">
             </div>
             <div class="card-body col-md-6 ">
               <form v-on:submit.prevent="addItem($event)" class="mt-3 card-body">
@@ -29,10 +30,12 @@
           </div>
       </div>
     </section>
+    <ItemTab/>
   </div>
 </template>
 <script>
 import axios from 'axios'
+import ItemTab from '@/components/item_tab'
 export default {
     data () {
         return {
@@ -40,7 +43,11 @@ export default {
             product:{},
             amount:'',
             key:'',
+            spin: true
         }
+    },
+    components: {
+      ItemTab
     },
     methods: {
       addItem(event) {
@@ -55,16 +62,22 @@ export default {
       updateDataToStorage() {
         const itemListStr = JSON.stringify(this.$store.state.itemList);
         localStorage.setItem(this.key, itemListStr);
-      }
+      },
+      loaded() {
+        this.spin = false
+      },
+      // spin() {
+      //   return this.visibility
+      // }
     }, 
-    mounted () {
-       const config = {
-               headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          }
-           };
+    async mounted () {
+      const config = {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        }
+      };
         // this.$store.commit("itemList",this.itemList);
-         axios.get("https://x-home.pcpogo.com/homex/product.php?RDEBUG=andrewc",config)
+        await axios.get("https://x-home.pcpogo.com/homex/product.php?RDEBUG=andrewc",config)
           .then(response => {
             response.data.forEach(element => {
               element.image = JSON.parse(element.image);
@@ -79,7 +92,6 @@ export default {
           .catch(error => {
             console.log('err',error);
           });
-
     },
     created (){       
                 // 一開啟網頁就更新itemList內容
@@ -96,3 +108,6 @@ export default {
     
 }
 </script>
+<style scoped>
+
+</style>
