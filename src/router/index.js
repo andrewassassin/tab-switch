@@ -8,8 +8,7 @@ import Login from '@/views/Login'
 import Item from '@/views/Item'
 Vue.use(Router)
 
-export default new Router({ 
-routes:[
+const routes=[
   {
     path: '/',
     name: 'index',
@@ -43,4 +42,9 @@ routes:[
   }
           
 ]  
-})
+
+const router = new Router({
+  routes
+});
+
+export default router;

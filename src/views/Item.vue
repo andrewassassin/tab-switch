@@ -25,7 +25,13 @@
                         加入購物車
                     </button>
                 </div> 
-              </form>              
+
+              </form>   
+               <div class="mt-5 form-group">
+                    <button class="btn btn-primary" @click="deleteBtn()" type="click">
+                        刪除商品
+                    </button>
+                </div>            
             </div>
           </div>
       </div>
@@ -66,38 +72,49 @@ export default {
       loaded() {
         this.spin = false
       },
+      deleteBtn(){
+        axios.post("https://x-home.pcpogo.com/homex/delete.php?RDEBUG=andrewc",this.id)
+          .then(res => {
+                console.log(res)
+              })
+              // console.log('product內',this.product)
+          .catch(error => {
+            console.log('err',error);
+          });
+      }
       // spin() {
       //   return this.visibility
       // }
     }, 
-    async mounted () {
-      const config = {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        }
-      };
+      async mounted() {
+        console.log('this',this)
+        var that = this
         // this.$store.commit("itemList",this.itemList);
-        await axios.get("https://x-home.pcpogo.com/homex/product.php?RDEBUG=andrewc",config)
+         await axios.get("https://x-home.pcpogo.com/homex/product.php?RDEBUG=andrewc")
           .then(response => {
             response.data.forEach(element => {
               element.image = JSON.parse(element.image);
-              this.productList.push(element) 
-              const pid = this.id
-              const item = this.productList.find(item=>{
-                  return item.id == pid
+              that.productList.push(element) 
+              that.product  = that.productList.find(item=>{
+                  return item.id == that.id
               })
-              this.product = item     
+              // console.log('product內',this.product)
+              
             });
+              console.log('product內',that.product)
           })
+          console.log('product',that.product)
           .catch(error => {
             console.log('err',error);
           });
     },
     created (){       
+        if(this.key!==''){
                 // 一開啟網頁就更新itemList內容
             const itemListStr = localStorage.getItem(this.key);
             const defaultList = JSON.parse(itemListStr);
             this.$store.state.itemList = defaultList || []; 
+        }
     },
   props: {
     id: {

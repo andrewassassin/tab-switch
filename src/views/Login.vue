@@ -3,7 +3,6 @@
     <h1>{{ msg }}</h1>
     <section class="py-3">
         <div class="container">
-            <loading :active.sync="isLoading"></loading>
             <div class="row">
                 <form id="LoginForm" v-on:submit.prevent="loginForm($event)" class="container col-md-6 py-3">
                     <div class="form-group">
@@ -27,22 +26,17 @@
 <script>
 import axios from 'axios'
 export default {
-    name: 'Register',
     data () {
         return {
         msg: '會員登入',
         user:{
                 username:'',
                 password:'',
-                name:''
-            },
-        isLoading: false    
+            }, 
         }
     }, 
     methods:{
         loginForm (event) {
-            const vm = this
-            vm.isLoading = true 
             console.log('submit')
              const data = {
                 username: this.user.username,
@@ -55,9 +49,10 @@ export default {
             };                 
             axios.post("https://x-home.pcpogo.com/homex/login.php?RDEBUG=andrewc", data, config)
                 .then(response => {
-                    console.log('res  ', response.data);
-                    this.$store.commit('login',response.data);
-                    vm.isLoading = false 
+                    // console.log('token  ', response.data.token);
+                    // this.$store.commit('login',response.data.token);
+                    localStorage.setItem(this.$store.state.token,  response.data.token)
+                    console.log('token log',this.$store.state.token)
                   
                 })
                 .catch(error => {

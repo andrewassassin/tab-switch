@@ -1,9 +1,10 @@
 <template>
     <div class="tab-contnet container"> 
+        <h1>推薦產品</h1>
         <div class="row">  
             <div ref="tabTitle" class="btn-group checkout-btn justify-content-center" role="group" id="tabs">
                 <div class="img1 col-md-3">
-                    <p :id="0" v-on:click.prevent="tabItem($event)">音樂饗宴</p>
+                    <p :id="0" v-on:click.prevent="tabItem($event)">落地喇叭</p>
                         <div class="card-btns">
                             <div class="card-btns-1">             
                                 <i class="fas fa-sort-down fa-3x fa"></i>               
@@ -11,7 +12,7 @@
                         </div>
                 </div>
                 <div class="img2 col-md-3 ">
-                    <p :id="1" v-on:click.prevent="tabItem($event)">電影欣賞</p>
+                    <p :id="1" v-on:click.prevent="tabItem($event)">藍芽喇叭</p>
                     <div class="card-btns">
                         <div class="card-btns-2">
                             <i class="fas fa-sort-down fa-3x fa"></i>               
@@ -19,7 +20,7 @@
                     </div>
                 </div>
                 <div class="img3 col-md-3">
-                    <p :id="2" v-on:click.prevent="tabItem($event)">藍芽喇叭</p>
+                    <p :id="2" v-on:click.prevent="tabItem($event)">電影欣賞</p>
                         <div class="card-btns ">
                             <div class="card-btns-3 ">             
                                 <i class="fas fa-sort-down fa-3x fa "></i>              
@@ -45,12 +46,14 @@
                 </div>
                 <!--  第二分頁 -->
                 <div class="form-content container" >
-                    <div class="row align-items-center">
-                        <img src="../../static/img/002.jpg" class="col-md-4" alt="" >
+                    <div class="row align-items-center" v-for="product in threeList2" :key="product.key">
+                        <img :src="`../../static/img/${product.image[0]}`" class="col-md-4" alt="" >
                         <div class="col-md-8 py-5">
-                            <h3 class="title">中頻渾厚、可外接低音</h3>
-                                <h4 class="name">Dali SE</h4>
-                                <p>創造家庭劇院的第一首選</p>           
+                            <h3 class="title">近場聆聽、高頻精準</h3>
+                            <h4 class="name">{{product.name}}</h4>
+                                <span class="badge badge-info">
+                                    {{product.category}}
+                                </span>                      
                         </div>
                     </div>
                 </div>
@@ -77,7 +80,9 @@ export default {
     data () {
         return {
             productList:[],
-            threeList: []
+            productList2:[],
+            threeList: [],
+            threeList2:[]
         }
     },
     beforeMount() {
@@ -106,10 +111,19 @@ export default {
                         this.threeList.push(item)
                     })
                 })
+                axios.post(`https://x-home.pcpogo.com/homex/tab2.php?RDEBUG=andrewc`,count,config)
+                .then(response =>{      
+                    this.productList2 = response.data
+                    console.log(response.data)
+                    this.productList2.splice(0,2).forEach(item=>{
+                        item.image = JSON.parse(item.image);
+                        this.threeList2.push(item)
+                    })
+                })
         },
         scroll() {
             let isLoading = false
-            var count = 0
+            var count = 0 
             var that = this
             window.onscroll = async function() {
                 // 距離底部200px加載一次
@@ -119,12 +133,7 @@ export default {
                 if (bottomOfWindow && isLoading == false) {
                     isLoading = true
                     count += 2
-                    const config = {
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded",
-                        }
-                    }
-                    await axios.post(`https://x-home.pcpogo.com/homex/tab.php?RDEBUG=andrewc`, count,config)
+                    await axios.post(`https://x-home.pcpogo.com/homex/tab.php?RDEBUG=andrewc`, count)
                         .then(response => {
                             that.productList = response.data
                             that.productList.splice(0,2).forEach(item=>{
@@ -132,6 +141,15 @@ export default {
                                 that.threeList.push(item)
                             })            
                         })        
+                     axios.post(`https://x-home.pcpogo.com/homex/tab2.php?RDEBUG=andrewc`,count)
+                         .then(response =>{      
+                            this.productList2 = response.data
+                            console.log(response.data)
+                            this.productList2.splice(0,2).forEach(item=>{
+                                item.image = JSON.parse(item.image);
+                                this.threeList2.push(item)
+                    })
+                })
                     isLoading = false
                 }         
             }
