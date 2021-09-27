@@ -7,7 +7,8 @@ const store = new Vuex.Store({
     state: {
       itemList:[],
       isLogin:'',
-      token:''
+      username:[],
+      token:""
     },
     mutations: {
       itemList(state,item) {
@@ -15,7 +16,10 @@ const store = new Vuex.Store({
       },
       login(state,data) {
         state.token = data;
-      }  
+      },
+      user(state,data) {
+        state.username.push(data) 
+      }
     }
   })
 export default store;
