@@ -3,6 +3,7 @@
       <section class="py-3">
       <div class="container">
         <h2 class="text-center mb-2">搜尋結果</h2>
+        <h4 class="text-left">搜尋: {{id}}</h4>
           <div class="row">
             <div class="col-md-4 person" v-for="(product,index) in threeList" :key="index">
               <div class="card my-5 mx-2">

@@ -59,11 +59,14 @@ export default {
       this.isClickCart = false
     },
     innerSearch() {   
+        console.log('this.$route.path',this.$route.path)
         const id = this.searchBar
-        this.$router.push({
-          path: `/search/${id}`,
-          component: Search,
-        })  
+        if(id&& this.$route.path!==`/search/${id}`){
+          this.$router.push({
+            path: `/search/${id}`,
+            component: Search,
+          })  
+        }
     }
   }
 }
