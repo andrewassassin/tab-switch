@@ -64,12 +64,8 @@ export default {
   }, 
   methods: {
     createForm (event) {
-        // this.status.fileUploading = true
-          console.log('hi')
           //讀取圖片路徑
-            // console.log("圖片路徑",this.image.name)
             this.image.forEach(img=>{
-              console.log('img.name',img.name)
               this.product.image.push(img.name)
             })
             const product = {
@@ -79,7 +75,6 @@ export default {
               category: this.product.category ,
               createdAt: new Date().getTime()
             }
-             console.log('product',product)
               const config = {
                 headers: {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -108,12 +103,7 @@ export default {
     showImgplz(){
       this.showImg = true
     },
-   
-},
-mounted(){
-      console.log(55)
-    }
-
+  }
 }
 </script>
 <style scoped>

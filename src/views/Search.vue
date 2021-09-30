@@ -2,7 +2,7 @@
     <header class="my-2">
       <section class="py-3">
       <div class="container">
-        <h2 class="text-center mb-2">產品列表</h2>
+        <h2 class="text-center mb-2">搜尋結果</h2>
           <div class="row">
             <div class="col-md-4 person" v-for="(product,index) in threeList" :key="index">
               <div class="card my-5 mx-2">
@@ -39,7 +39,12 @@ import Modal from '@/components/Modal'
 import axios from 'axios'
 import Item from '@/views/Item'
 export default {
-  name: 'Product',
+  props: {
+    id: {
+      type: String,
+      default: ""
+    }
+  },
   data () {
     return {
       productList:[],
@@ -50,21 +55,16 @@ export default {
     Modal
   },
   beforeMount() {
-    // 在頁面開啟前發出請求
     this.getInitialUsers()
   },
-  mounted(){
-    this.scroll()    
-  },
   methods:{
-    getInitialUsers() {  
-      const count = 0
-      axios.post(`https://x-home.pcpogo.com/homex/product.php?RDEBUG=andrewc`,count)
+    async getInitialUsers() {  
+      await axios.post(`https://x-home.pcpogo.com/homex/search.php?RDEBUG=andrewc`,this.id)
         .then(
             response => {      
               this.productList = response.data
               console.log(response.data)
-              this.productList.splice(0,6).forEach(item=>{
+              this.productList.forEach(item=>{
                 item.image = JSON.parse(item.image);
                 this.threeList.push(item)
               })
@@ -78,37 +78,7 @@ export default {
           component: Item,
         })    
     },
-    scroll() {
-        let isLoading = false
-        var count = 0
-        var that = this
-        window.onscroll = async function() {
-          console.log(1)
-
-          // 距離底部200px加載一次
-          let bottomOfWindow = document.documentElement.offsetHeight - document.documentElement.scrollTop - window.innerHeight <= 200
-          // let height = document.documentElement.offsetHeight - document.documentElement.scrollTop
-          // console.log('bottomOfWindow',height - window.innerHeight)
-          if (bottomOfWindow && isLoading == false) {
-              isLoading = true
-              count += 6
-            await axios.post(`https://x-home.pcpogo.com/homex/product.php?RDEBUG=andrewc`, count)
-                .then(
-                  response => {
-                    console.log(2)
-                    that.productList = response.data
-                    that.productList.splice(0,6).forEach(item=>{
-                      item.image = JSON.parse(item.image);
-                      that.threeList.push(item)
-                    })            
-                  }      
-                )        
-              console.log(3)
-              isLoading = false
-          }         
-       }
-      },
-      topFunction() {
+    topFunction() {
         document.body.scrollTop = 0; // For Safari
         document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
       } 

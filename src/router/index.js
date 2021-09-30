@@ -6,6 +6,7 @@ import Product from '@/views/Product'
 import Register from '@/views/Register'
 import Login from '@/views/Login'
 import Item from '@/views/Item'
+import Search from '@/views/Search'
 Vue.use(Router)
 
 const routes=[
@@ -39,6 +40,12 @@ const routes=[
     name: 'item',
     props: true,
     component: Item
+  },
+  {
+    path: `/search/:id`,
+    name: 'search',
+    props: true,
+    component: Search
   }
           
 ]  

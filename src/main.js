@@ -29,18 +29,18 @@ new Vue({
   template: '<App/>'
 })
 
-router.beforeEach((to, from, next) => {
-  if (to.path === '/login') {
-    next();
-  } else {
-    let token = JSON.stringify(localStorage.getItem(store.state.token));
-    console.log('token',typeof token)
-    if (token == 'null' || token === '') {
-      console.log('into null')
-      next('/login');
-    } else {
-      console.log('ok')
-      next();
-    }
-  }
-});
+// router.beforeEach((to, from, next) => {
+//   if (to.path === '/login') {
+//     next();
+//   } else {
+//     let token = JSON.stringify(localStorage.getItem(store.state.token));
+//     console.log('token main', token)
+//     if (token == 'null' || token === '') {
+//       console.log('into null')
+//       next('/login');
+//     } else {
+//       console.log('ok')
+//       next();
+//     }
+//   }
+// });

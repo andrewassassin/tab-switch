@@ -49,11 +49,13 @@ export default {
             };                 
             axios.post("https://x-home.pcpogo.com/homex/login.php?RDEBUG=andrewc", data, config)
                 .then(response => {
-                    // console.log('token  ', response.data.token);
-                    // this.$store.commit('login',response.data.token);
+                    // console.log('', response.data);                 
+                    this.$store.commit('login',response.data.token);
                     localStorage.setItem(this.$store.state.token,  response.data.token)
-                    console.log('token log',this.$store.state.token)
-                  
+                    console.log('token login',this.$store.state.token)
+                    this.$store.commit("user", response.data.id);
+                    localStorage.setItem(this.$store.state.userId, response.data.id)
+                    console.log('user',this.$store.state.userId)
                 })
                 .catch(error => {
                     console.log('err',error);

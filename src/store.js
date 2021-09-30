@@ -7,7 +7,7 @@ const store = new Vuex.Store({
     state: {
       itemList:[],
       isLogin:'',
-      username:[],
+      userId:"",
       token:""
     },
     mutations: {
@@ -18,7 +18,7 @@ const store = new Vuex.Store({
         state.token = data;
       },
       user(state,data) {
-        state.username.push(data) 
+        state.userId = data
       }
     }
   })
