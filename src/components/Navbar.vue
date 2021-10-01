@@ -41,6 +41,7 @@ import Modal from '@/components/Modal'
 import Search from '@/views/Search'
 export default {
   name: 'Navbar',
+  inject: ["reload"],
   data () {
     return {
       isClickCart: false,
@@ -59,16 +60,22 @@ export default {
       this.isClickCart = false
     },
     innerSearch() {   
-        console.log('this.$route.path',this.$route.path)
         const id = this.searchBar
-        if(id&& this.$route.path!==`/search/${id}`){
+        if(id&& this.$route.path!==`/search/${id}` &&this.$route.name!=='search'){
           this.$router.push({
             path: `/search/${id}`,
             component: Search,
           })  
+        }else if(id&&this.$route.name=='search'){
+            this.$router.push({
+            path: `/search/${id}`,
+            component: Search,
+          })  
+           this.reload();
         }
     }
   }
+ 
 }
 
 </script>

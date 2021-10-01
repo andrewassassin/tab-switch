@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Navbar />
-    <router-view/>
+    <router-view v-if="isRouterAlive"/>
   </div>
 </template>
 
@@ -9,12 +9,26 @@
 import Navbar from '@/components/Navbar'
 export default {
   name: 'App',
+   provide() {
+    return {
+      reload: this.reload
+    };
+  },
    components: {
     Navbar
   },
   data(){
      return {
-      msg: '這是首頁'
+      msg: '這是首頁',
+      isRouterAlive: true
+    }
+  },
+  methods:{
+     reload() {
+      this.isRouterAlive = false;
+      this.$nextTick(() => {
+        this.isRouterAlive = true;
+      });
     }
   }
 }

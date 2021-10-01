@@ -1,5 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+//安裝vuex不受reload影響而消失的套件
+// import createPersistedState from 'vuex-persistedstate'
+// import * as Cookies from 'js-cookie'
 Vue.use(Vuex);
 
 // 定義一個新的 Vue Store
@@ -20,6 +23,8 @@ const store = new Vuex.Store({
       user(state,data) {
         state.userId = data
       }
-    }
+    },
+
   })
+  
 export default store;
