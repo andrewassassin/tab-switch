@@ -1,35 +1,40 @@
 <template>
     <div>
-        <nav class="navbar navbar-expand-lg navbar-light  fixed-top" id="navBar">
+        <nav class="navbar navbar-expand-lg navbar-light fixed-top" id="navBar">
+            <!-- 手機版切換導覽列顯示按鈕 -->
+            <button class="navbar-toggler" >
+              <span class="navbar-toggler-icon"></span>
+            </button>
             <a class="navbar-brand"></a>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mr-5 ml-5">
-                <li class="nav-item mr-5">
-                    <router-link class="text-body" to="/">首頁</router-link>
-                </li>
-                <li class="nav-item active mr-5">
-                    <router-link class="text-body" to="/product">商品詳情</router-link>
-                </li>
-                <li class="nav-item mr-5 ">
-                    <router-link class="text-body" to="/create">建立商品</router-link>
-                </li>
-                <li class="nav-item mr-5">
-                    <router-link class="text-body" to="/register">註冊</router-link>
-                </li>
-                <li class="nav-item mr-5">
-                    <router-link class="text-body" to="/login">登入</router-link>
-                </li>              
-                </ul>
-            </div>
-            <form @submit.prevent="innerSearch($event)" class="form-inline mr-5">
+            <div class="collapse navbar-collapse " id="navbarSupportedContent">              
+                  <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    <li class="nav-item mr-5">
+                        <router-link class="text-body nav-link" to="/">首頁</router-link>
+                    </li>
+                    <li class="nav-item active mr-5">
+                        <router-link class="text-body nav-link" to="/product">商品詳情</router-link>
+                    </li>
+                    <li class="nav-item mr-5 ">
+                        <router-link class="text-body nav-link" to="/create">建立商品</router-link>
+                    </li>
+                    <li class="nav-item mr-5">
+                        <router-link class="text-body nav-link" to="/register">註冊</router-link>
+                    </li>
+                    <li class="nav-item mr-5">
+                        <router-link class="text-body nav-link" to="/login">登入</router-link>
+                    </li>              
+                  </ul>
+                  <form @submit.prevent="innerSearch($event)" class="form-inline mr-5">
               <input v-model="searchBar" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-info my-2 my-sm-0" type="submit">Search</button>
             </form>
             <div>
-              <button v-on:click.prevent="openModal()" class="btn btn-primary"  type="click">
-                購物車
+              <button v-on:click.prevent="openModal()" class="btn btn-primary mr-3 float-right"  type="click">
+                <i class="fas fa-shopping-cart"></i> 購物車
               </button>
             </div>
+            </div>
+            
         </nav>
             <transition >
                 <Modal v-if="isClickCart" @closeBtn="closeModal"  />
@@ -98,4 +103,7 @@ export default {
   background:  rgba(170, 100, 9, 0.904);
   z-index: 99;
 }
+
+
+
 </style>

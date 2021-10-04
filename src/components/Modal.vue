@@ -24,7 +24,14 @@
                   <tr>
                       <td>
                           <div class="d-flex">
-                              <button v-on:click.prevent="deleteBtn($event)" :id="`${idx}`" type="button" class="delete-btn btn btn-danger btn-sm">
+                              <input 
+                                type="checkbox" 
+                                :value="item.id" 
+                                v-model="item.checked"    
+                                @change="check($event)" 
+                                class="mr-2 mt-2"
+                              > 
+                              <button v-on:click.prevent="deleteBtn($event)" :id="`${idx}`" type="button" class="delete-btn btn btn-danger btn-sm mr-3">
                                   &times;
                               </button>
                               <div>
@@ -50,14 +57,17 @@
             </table>
         </div>
         <div class="text-right">
-            <button id="clearCartBtn" v-on:click.prevent="clearBtn($event)" type="button" class="btn btn-danger">
+            <button id="clearCartBtn" @click.prevent="delSelected($event)" type="button" class="btn btn-warning">
+                <i class="fas fa-trash-alt"></i> 刪除所選品項
+            </button>
+            <button id="clearCartBtn" @click.prevent="clearBtn($event)" type="button" class="btn btn-danger">
                 <i class="fas fa-trash-alt"></i> 清空購物車
             </button>
-            <button type="button" v-on:click.prevent="closeBtn()" class="btn btn-secondary" >
+            <button type="button" @click.prevent="closeBtn()" class="btn btn-secondary" >
                 <i class="fas fa-times"></i> 關閉
             </button>
         </div>
-      </div>
+      </div> 
     </div>
   </div>
 </template>
@@ -65,7 +75,9 @@
 export default {
     data() {
         return {
-          key:''
+          key:'',
+          checkBox:[],
+
         }
     },
     methods: {
@@ -84,8 +96,28 @@ export default {
       updateDataToStorage() {
         const itemListStr = JSON.stringify(this.itemList);
         localStorage.setItem(this.key, itemListStr);
+      },
+      check(event){
+        if(event.target.checked){
+          console.log(event.currentTarget)
+          this.checkBox.push(event.currentTarget.value)
+          console.log('checkbox',this.checkBox)
+        }else{
+            const index = this.checkBox.indexOf(event.currentTarget.value)
+            if (index > -1) {
+              this.checkBox.splice(index, 1);
+            }
+        }
+        
+      },
+      delSelected(){      
+        this.checkBox.forEach(item =>{
+          const index = this.itemList.map(el=>el.id).indexOf(item)
+          this.itemList.splice(index,1)
+        })  
+        this.checkBox=[] 
+        // this.updateDataToStorage()
       }
-
     },
     created() {
         const itemListStr = localStorage.getItem(this.key);
@@ -105,6 +137,12 @@ export default {
           }, 0)
         }
      },
+     watch:{
+       checkBox:(newVal,oldVal)=>{
+         console.log('newVal: ',newVal,'  oldVal: ',oldVal)
+
+       }
+     }
 }
 </script>
 <style >

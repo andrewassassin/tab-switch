@@ -1,8 +1,8 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 //安裝vuex不受reload影響而消失的套件
-// import createPersistedState from 'vuex-persistedstate'
-// import * as Cookies from 'js-cookie'
+import createPersistedState from 'vuex-persistedstate'
+import * as Cookies from 'js-cookie'
 Vue.use(Vuex);
 
 // 定義一個新的 Vue Store
@@ -11,7 +11,13 @@ const store = new Vuex.Store({
       itemList:[],
       isLogin:'',
       userId:"",
-      token:""
+      token:"",
+      plugins: [
+        createPersistedState({
+          getState: (key) => Cookies.getJSON(key),
+          setState: (key, state) => Cookies.set(key, state, { expires: 3, secure: true })
+        })
+      ]
     },
     mutations: {
       itemList(state,item) {

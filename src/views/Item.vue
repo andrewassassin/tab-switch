@@ -74,7 +74,7 @@ export default {
         const item = {
               ...this.product,
               amount: this.amount,
-              uid: 20
+              uid: this.$store.state.userId
         }
 
            const already = this.$store.state.itemList.find(item => {
