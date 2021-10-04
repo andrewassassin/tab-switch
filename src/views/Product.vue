@@ -58,7 +58,7 @@ export default {
   },
   methods:{
     getInitialUsers() {  
-      const count = 0
+      const count = "0"
       axios.post(`https://x-home.pcpogo.com/homex/product.php?RDEBUG=andrewc`,count)
         .then(response => {      
               this.productList = response.data

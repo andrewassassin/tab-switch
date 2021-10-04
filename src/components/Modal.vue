@@ -27,7 +27,7 @@
                               <input 
                                 type="checkbox" 
                                 :value="item.id" 
-                                v-model="item.checked"    
+                                v-model="item.rd"    
                                 @change="check($event)" 
                                 class="mr-2 mt-2"
                               > 

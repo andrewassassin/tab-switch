@@ -5,9 +5,9 @@
       <div class="slide-item">
         <transition-group name="flip-list" tag="ul" class="slide-list">
           <li v-for="(item,index) in slideData" :key="item.id">                   
-              <img :src="`../../static/img/${itemObj[item.ref].image}`" :name="`${itemObj[item.ref]}`" :id="`${index}`"  @click="clickImg($event,index)" alt="">    
-              <p class="">{{itemObj[item.ref].name}}</p> 
-              <p class="money">TWD$ <span class="badge">{{itemObj[item.ref].price}}</span></p>   
+              <img :src="`../../static/img/${item.image}`"  :id="`${index}`" alt="">    
+              <p class="">{{item.name}}</p> 
+              <p class="money">TWD$ <span class="badge">{{item.price}}</span></p>   
           </li>
         </transition-group>
       </div>
@@ -28,6 +28,7 @@ export default {
       timer: {},
       slideData: [],
       itemObj:[],
+      count:5
     }
   },
   methods:{
@@ -40,12 +41,25 @@ export default {
           window.clearInterval(this.timer);
         },
       // 既然上面call slideCtrl帶1進去，為何這邊強制slidesToShow = 1
-        slideCtrl(slidesToShow=1) {
+      async slideCtrl(slidesToShow=1) {
           if (this.clickWait) {
             return;
           }
           this.stopTime();
           this.clickWait = true;
+
+        
+        await axios.post("https://x-home.pcpogo.com/homex/tab2.php?RDEBUG=andrewc",this.count)
+          .then(response => {
+            // console.log('response',response)
+              response.data.forEach(element => {
+                element.image = JSON.parse(element.image)[1]
+                this.slideData.push(element)
+              }); 
+          })
+          .catch(error => {
+            console.log('err',error);
+          });
 
           if (slidesToShow > 0) {
               // 移除最後一個
@@ -55,8 +69,11 @@ export default {
               return;
           }
           if (slidesToShow < 0) {
-            const shiftItem = this.slideData.splice(0,5);
-            this.slideData = this.slideData.concat(shiftItem);
+            setTimeout(()=>{this.slideData.splice(0,5)},500)
+            console.log('77')
+    
+            // const shiftItem = this.slideData.splice(0,5);
+            // this.slideData = this.slideData.concat(shiftItem);
             // 註解掉的話只能點一次
             this.setTime();
             // return;
@@ -64,25 +81,26 @@ export default {
         }
     },
     async mounted(){
-      await axios.get("https://x-home.pcpogo.com/homex/product.php?RDEBUG=andrewc")
+      const count = "0"
+      await axios.post("https://x-home.pcpogo.com/homex/tab2.php?RDEBUG=andrewc",count)
           .then(response => {
-            // console.log('response',response)
+            console.log('response',response)
               response.data.forEach(element => {
                 element.image = JSON.parse(element.image)[1]
-                this.itemObj.push(element)
+                this.slideData.push(element)
               }); 
           })
           .catch(error => {
             console.log('err',error);
           });
-      for (let i = 0; i < this.itemObj.length*3 ; i++) {
-        let obj = {};
-        obj.id = i;
-        // 2%10  10除以2的餘數是什麼，在此例 ref = i
-        obj.ref = i % this.itemObj.length;
-        this.slideData.push(obj);
+      // for (let i = 0; i < this.itemObj.length*3 ; i++) {
+      //   let obj = {};
+      //   obj.id = i;
+      //   // 2%10  10除以2的餘數是什麼，在此例 ref = i
+      //   obj.ref = i % this.itemObj.length;
+      //   this.slideData.push(obj);
 
-      }
+      // }
     }
 }
 
@@ -156,12 +174,12 @@ ul {
 .slide-list li {
   position: relative;
   flex: 1 0 0;
-  left:calc(-100% /1.79 * 5);
+  left:calc(-100% /260 * 5);
   margin: 15px;
   
 }
 
-.slide-list li:nth-child(1),
+/* .slide-list li:nth-child(1),
 .slide-list li:nth-child(2),
 .slide-list li:nth-child(3),
 .slide-list li:nth-child(4),
@@ -174,7 +192,7 @@ ul {
 {
   z-index: 0;
   opacity: 0;
-} 
+}  */
 
 
 .slide-list img{
