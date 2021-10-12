@@ -3,17 +3,17 @@
   <section id="introSection" >
     <div class="slide">
       <div class="slide-item">
-        <transition-group name="flip-list" tag="ul" class="slide-list">
+        <transition-group :name="transitionSwiper" tag="ul" class="slide-list">
           <li v-for="(item,index) in slideData" :key="item.id">                   
-              <img :src="`../../static/img/${item.image}`"  :id="`${index}`" alt="">    
+              <img :src="`../../static/img/${item.image}`" :id="`${index}`" alt="">    
               <p class="">{{item.name}}</p> 
               <p class="money">TWD$ <span class="badge">{{item.price}}</span></p>   
           </li>
         </transition-group>
       </div>
       <div class="slide-ctrl">
-        <div class="slide-prev" @click="slideCtrl(1)"><i class="fas fa-angle-double-left"></i></div>
-        <div class="slide-next" @click="slideCtrl(-1)"><i class="fas fa-angle-double-right"></i></div>
+        <div v-if="prevBtn" class="slide-prev" @click="slideCtrl(1)"><i class="fas fa-angle-double-left"></i></div>
+        <div v-if="nextBtn" class="slide-next" @click="slideCtrl(-1)"><i class="fas fa-angle-double-right"></i></div>
       </div>
     </div>
   </section>
@@ -27,8 +27,11 @@ export default {
       clickWait: false,
       timer: {},
       slideData: [],
-      itemObj:[],
-      count:5
+      shiftItem:[],
+      count:5,
+      transitionSwiper:"",
+      prevBtn:false,
+      nextBtn:true
     }
   },
   methods:{
@@ -47,36 +50,34 @@ export default {
           }
           this.stopTime();
           this.clickWait = true;
-
-        
-        await axios.post("https://x-home.pcpogo.com/homex/tab2.php?RDEBUG=andrewc",this.count)
-          .then(response => {
-            // console.log('response',response)
-              response.data.forEach(element => {
-                element.image = JSON.parse(element.image)[1]
-                this.slideData.push(element)
-              }); 
-          })
-          .catch(error => {
-            console.log('err',error);
-          });
-
           if (slidesToShow > 0) {
+              this.prevBtn = false 
+              this.nextBtn = true  
+              this.transitionSwiper="slidePrev"
               // 移除最後一個
-              const shiftItem = this.slideData.splice(-5);
-              this.slideData =[...shiftItem,...this.slideData]
+              this.slideData =[...this.shiftItem,...this.slideData]
+              console.log('this.slideData',this.slideData)
+              this.slideData.splice(-5);
               this.setTime();
               return;
           }
-          if (slidesToShow < 0) {
-            setTimeout(()=>{this.slideData.splice(0,5)},500)
-            console.log('77')
-    
-            // const shiftItem = this.slideData.splice(0,5);
-            // this.slideData = this.slideData.concat(shiftItem);
-            // 註解掉的話只能點一次
-            this.setTime();
-            // return;
+          if (slidesToShow < 0) {  
+              this.prevBtn = true 
+              this.nextBtn = false   
+              this.transitionSwiper="slide" 
+              await axios.post("https://x-home.pcpogo.com/homex/tab2.php?RDEBUG=andrewc",this.count)
+                .then(response => {
+                    response.data.forEach(element => {
+                      element.image = JSON.parse(element.image)[1]
+                      this.slideData.push(element)
+                    }); 
+                })
+                .catch(error => {
+                  console.log('err',error);
+                });
+              this.shiftItem = this.slideData.splice(0,5)
+              this.setTime();
+              return;
           }
         }
     },
@@ -93,19 +94,10 @@ export default {
           .catch(error => {
             console.log('err',error);
           });
-      // for (let i = 0; i < this.itemObj.length*3 ; i++) {
-      //   let obj = {};
-      //   obj.id = i;
-      //   // 2%10  10除以2的餘數是什麼，在此例 ref = i
-      //   obj.ref = i % this.itemObj.length;
-      //   this.slideData.push(obj);
-
-      // }
     }
 }
-
-
 </script>
+
 <style scoped>
 #introSection{
   display: flex;
@@ -113,7 +105,6 @@ export default {
   align-items: center;
   height: calc(100vh - 60px);
 }
-
 
 ul {
   list-style-type: none;
@@ -167,50 +158,59 @@ ul {
 }
 
 .slide-list {
+  /* position: relative; */
   display: flex;
   padding: 5px 0px;
   height: 2000px;
 }
 .slide-list li {
-  position: relative;
+  /* display: inline-block; */
+  /* position: relative; */
   flex: 1 0 0;
   left:calc(-100% /260 * 5);
   margin: 15px;
   
 }
 
-/* .slide-list li:nth-child(1),
-.slide-list li:nth-child(2),
-.slide-list li:nth-child(3),
-.slide-list li:nth-child(4),
-.slide-list li:nth-child(5),
-.slide-list li:nth-child(71),
-.slide-list li:nth-child(72),
-.slide-list li:nth-child(73),
-.slide-list li:nth-child(74),
-.slide-list li:nth-child(75)
-{
-  z-index: 0;
-  opacity: 0;
-}  */
-
-
 .slide-list img{
   width: 150px;
   height: 150px;
 }
 
-.flip-list-move {
+/* .flip-list-move {
   transition: transform 0.6s;
+} */
+
+.slide-leave-active,
+.slide-enter-active,
+.slidePrev-leave-active,
+.slidePrev-enter-active{
+  transition:all .5s;
+  /* position: absolute; */
 }
+
+.slidePrev-leave-to{
+  transform: translate(-1000%, 0);
+}
+/* 
+.slidePrev-leave{
+  transform: translate(2000%, 0);
+} */
+
+
+.slide-leave-to {
+  transform: translate(1000%, 0);
+}
+
+/* .slide-move,
+.slidePrev-move{
+   transition:all .3s;
+} */
 
 .money{
   color: rgb(248, 7, 7);
   font-size: 12px;
   font-weight:bold;
-
-
-
 }
 
 .badge{
